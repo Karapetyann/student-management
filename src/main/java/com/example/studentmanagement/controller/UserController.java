@@ -36,13 +36,19 @@ public class UserController {
     private String uploadDirectory;
 
     @GetMapping("/user/student")
-    public String studentPage(ModelMap modelMap ) {
+    public String studentPage(ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
+        if (springUser != null){
+            modelMap.addAttribute("user",springUser.getUser());
+        }
         List<User> users = userRepository.findByUserType(UserType.STUDENT);
         modelMap.put("users", users);
         return "user";
     }
     @GetMapping("/user/teacher")
-    public String teacherPage(ModelMap modelMap ) {
+    public String teacherPage(ModelMap modelMap,@AuthenticationPrincipal SpringUser springUser) {
+        if (springUser != null){
+            modelMap.addAttribute("user",springUser.getUser());
+        }
         List<User> users = userRepository.findByUserType(UserType.TEACHER);
         modelMap.put("users", users);
         return "user";
