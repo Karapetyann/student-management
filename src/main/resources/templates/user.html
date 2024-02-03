@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<span th:if="msg != null" style="color: red" th:text="${msg}"></span>
+<th:block th:include="/fragment/headerFragment::userInfo"/>
+Users page | <a href="/user/add">Add User</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>picture</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>email</th>
+        <th>lesson</th>
+        <th>type</th>
+        <th>update</th>
+        <th>delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user:${users}">
+        <td th:text="${user.id}"></td>
+        <td>
+            <div th:if="${user.getPicName() != null}">
+                <img alt="text" th:src="@{/getImage(picName=${user.picName})}" width="40"></div>
+            <p class="no_img" th:if="${user.getPicName() == null}">picture is empty</p>
+        </td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.lesson?.title}"></td>
+        <td th:text="${user.userType}"></td>
+        <td><a th:href="@{'/user/update/' + ${user.getId()}}">Update</a></td>
+        <td><a th:href="@{'/user/delete/' + ${user.getId()}}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
