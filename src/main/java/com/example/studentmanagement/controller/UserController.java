@@ -83,8 +83,15 @@ public class UserController {
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
-        userRepository.deleteById(id);
-        return "redirect:/user";
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            User user = byId.get();
+            userRepository.deleteById(user.getId());
+            if (user.getUserType() == UserType.TEACHER) {
+                return "redirect:/user/teacher";
+            }
+        }
+        return "redirect:/user/student";
     }
 
     @GetMapping("/user/update/{id}")

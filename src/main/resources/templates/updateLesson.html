@@ -15,7 +15,6 @@
     Teacher<select name="teacherId">
     <option th:if="teachers != null" th:each="teacher : ${teachers}" th:text="${teacher.name}" th:value="${teacher.id}">
     </option>
-    <br>
 </select>
     <input type="submit" value="Update"/>
 </form>
