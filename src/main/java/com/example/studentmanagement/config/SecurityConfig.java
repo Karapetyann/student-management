@@ -1,6 +1,7 @@
 package com.example.studentmanagement.config;
 
 import com.example.studentmanagement.entity.UserType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -24,13 +24,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/loginPage").permitAll()
                 .requestMatchers("/user/register").permitAll()
-                .requestMatchers("/lesson").hasAnyAuthority(UserType.TEACHER.name(),UserType.STUDENT.name())
-                .requestMatchers("/user").hasAnyAuthority(UserType.TEACHER.name(),UserType.STUDENT.name())
                 .requestMatchers("lesson/add").hasAnyAuthority(UserType.TEACHER.name())
                 .requestMatchers("lesson/delete/").hasAnyAuthority(UserType.TEACHER.name())
-                .requestMatchers("user/delete/").hasAnyAuthority(UserType.TEACHER.name())
-                .requestMatchers("user/update").hasAnyAuthority(UserType.TEACHER.name(),UserType.STUDENT.name())
+                .requestMatchers("user/delete/").hasAnyAuthority(UserType.STUDENT.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -47,6 +45,4 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
-
-
 }

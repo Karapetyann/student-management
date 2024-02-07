@@ -12,7 +12,7 @@
     Duration<input type="time" name="duration" th:value="${lesson.duration}"/><br/>
     Price<input type="number" name="price" th:value="${lesson.price}"/><br/>
     Start Date<input type="date" name="startDate" th:value="${lesson.startDate}"/><br>
-    Teacher<select name="teacherId">
+    Teacher<select name="teacher.id">
     <option th:if="teachers != null" th:each="teacher : ${teachers}" th:text="${teacher.name}" th:value="${teacher.id}">
     </option>
 </select>

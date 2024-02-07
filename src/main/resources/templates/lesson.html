@@ -6,10 +6,9 @@
 </head>
 <body>
 <th:block th:include="/fragment/headerFragment::userInfo"/>
+<span th:if="msg != null" style="color: red" th:text="${msg}"></span>
 Lessons page | <a href="/lesson/add">Add Lesson</a>
-
-<!--th:if="${currentUser != null && currentUser.UserType == 'TEACHER'}"-->
-<table border="1">
+<table border="1" >
     <thead>
     <tr>
         <th>id</th>
@@ -30,8 +29,16 @@ Lessons page | <a href="/lesson/add">Add Lesson</a>
         <td th:text="${lesson.price}"></td>
         <td th:text="${lesson.startDate}"></td>
         <td th:text="${lesson.user?.name}"></td>
-        <td><a th:href="@{'/lesson/update/' + ${lesson.getId()}}">Update</a></td>
-        <td><a th:href="@{'/lesson/delete/' + ${lesson.getId()}}">Delete</a></td>
+        <td>
+            <div th:if="${currentUser != null and lesson.user != null and currentUser.id == lesson.user.id}">
+                <a th:href="@{'/lesson/update/' + ${lesson.id}}">Update</a>
+            </div>
+        </td>
+        <td>
+            <div th:if="${currentUser != null and lesson.user != null and currentUser.id == lesson.user.id}">
+                <a th:href="@{'/lesson/delete/' + ${lesson.id}}">Delete</a>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>

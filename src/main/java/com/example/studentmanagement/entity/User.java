@@ -2,6 +2,10 @@ package com.example.studentmanagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -19,4 +23,9 @@ public class User {
     @ManyToOne()
     private Lesson lesson;
     private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_message",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id"))
+    private List<Message> messageList;
 }

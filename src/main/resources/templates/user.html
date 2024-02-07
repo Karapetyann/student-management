@@ -7,7 +7,7 @@
 <body>
 <span th:if="msg != null" style="color: red" th:text="${msg}"></span>
 <th:block th:include="/fragment/headerFragment::userInfo"/>
-Users page | <a href="/user/add">Add User</a>
+Users page | <a href="/user/add">Add User</a> | <a href="/message/list">My Messages</a>
 <table border="1">
     <thead>
     <tr>
@@ -18,25 +18,35 @@ Users page | <a href="/user/add">Add User</a>
         <th>email</th>
         <th>lesson</th>
         <th>type</th>
+        <th>SEND A MESSAGE</th>
         <th>update</th>
         <th>delete</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user:${users}">
-        <td th:text="${user.id}"></td>
+    <tr th:each="student:${students}">
+        <td th:text="${student.id}"></td>
         <td>
-            <div th:if="${user.getPicName() != null}">
-                <img alt="text" th:src="@{/getImage(picName=${user.picName})}" width="40"></div>
-            <p class="no_img" th:if="${user.getPicName() == null}">picture is empty</p>
+            <div th:if="${student.getPicName() != null}">
+                <img alt="text" th:src="@{/getImage(picName=${student.picName})}" width="40"></div>
+            <p class="no_img" th:if="${student.getPicName() == null}">picture is empty</p>
         </td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.surname}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.lesson?.title}"></td>
-        <td th:text="${user.userType}"></td>
-        <td><a th:href="@{'/user/update/' + ${user.getId()}}">Update</a></td>
-        <td><a th:href="@{'/user/delete/' + ${user.getId()}}">Delete</a></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.surname}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.lesson?.title}"></td>
+        <td th:text="${student.userType}"></td>
+        <td><a th:href="@{'/message/send/' + ${student.getId()}}">Send A Message</a></td>
+        <td>
+            <div th:if="${currentUser != null and currentUser.id == student.id}">
+                <a th:href="@{'/user/update/' + ${student.getId()}}">Update</a>
+            </div>
+        </td>
+        <td>
+            <div th:if="${currentUser != null and currentUser.id == student.id}">
+                <a th:href="@{'/user/delete/' + ${student.getId()}}">Delete</a>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+
+<form action="/message/send" method="POST">
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" cols="50"></textarea><br>
+    <input type="hidden" name="toUserId" value="${toUser.id}" />
+    <input type="hidden" name="fromUserId" value="${fromUser.id}" />
+    <input type="submit" value="Submit">
+</form>
+
+
+</body>
+</html>

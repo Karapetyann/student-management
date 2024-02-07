@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Controller
@@ -20,7 +19,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainPage(){
-        return "home";
+        return "loginPage";
     }
 
     @GetMapping(value = "/getImage", produces = MediaType.IMAGE_JPEG_VALUE)
