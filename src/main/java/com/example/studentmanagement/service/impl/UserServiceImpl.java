@@ -108,4 +108,9 @@ public class UserServiceImpl implements UserService {
             user.setLesson(null);
         }
     }
+
+    @Override
+    public List<User> findAllByUserTypeAndLesson(UserType userType, Lesson lesson) {
+        return userRepository.findAllByUserTypeAndLesson(userType, lesson);
+    }
 }

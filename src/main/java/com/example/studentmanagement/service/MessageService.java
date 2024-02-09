@@ -6,7 +6,7 @@ import com.example.studentmanagement.entity.User;
 import java.util.List;
 
 public interface MessageService {
-    Message save(Message message);
+    Message save(String message,int toId,User fromUser);
 
-    List<Message> myMessages(User user);
+    List<Message> myMessages(int id);
 }

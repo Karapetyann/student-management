@@ -25,38 +25,26 @@ public class MessageController {
     private final MessageService messageService;
 
     @GetMapping("/message/send/{studentId}")
-    public String sendMessagePage(@AuthenticationPrincipal SpringUser springUser, @PathVariable("studentId") int id, ModelMap modelMap) {
-        User fromUser = springUser.getUser();
+    public String sendMessagePage(@PathVariable("studentId") int id, ModelMap modelMap) {
         Optional<User> byId = userService.findById(id);
         if (byId.isPresent()){
             User toUser = byId.get();
             modelMap.addAttribute("toUser", toUser);
+            return "message";
         }
-        modelMap.addAttribute("fromUser",fromUser);
-        return "message";
+        return "user";
     }
 
     @PostMapping("/message/send")
     public String sendMessage(@RequestParam("message") String message,
                               @RequestParam("toUserId") int toUserId,
-                              @RequestParam("fromUserId") int fromUserId) {
-        Optional<User> byId = userService.findById(toUserId);
-        Optional<User> byId1 = userService.findById(fromUserId);
-        User toUser = null;
-        if (byId.isPresent()) {
-            toUser = byId.get();
-        }
-        User fromUser = null;
-        if (byId1.isPresent()) {
-            fromUser = byId1.get();
-        }
-        if (toUser != null && fromUser != null) {
-            Date date = new Date();
-            Message newMessage = new Message(1, message, fromUser, toUser, date);
-            messageService.save(newMessage);
+                              @AuthenticationPrincipal SpringUser springUser) {
+        User fromUser = springUser.getUser();
+        Message addMessage = messageService.save(message, toUserId, fromUser);
+        if (addMessage == null){
             return "redirect:/user/home";
         } else {
-            return "user";
+            return "redirect:/user/home";
         }
     }
 
@@ -64,7 +52,7 @@ public class MessageController {
     @GetMapping("/message/list")
     public String myMessages(@AuthenticationPrincipal SpringUser springUser, ModelMap modelMap) {
         User user = springUser.getUser();
-        List<Message> messages = messageService.myMessages(user);
+        List<Message> messages = messageService.myMessages(user.getId());
         if (messages != null) {
             modelMap.addAttribute("messages", messages);
         }

@@ -20,6 +20,8 @@ public interface UserService {
 
     void deleteById(int id);
 
+    List<User> findAllByUserTypeAndLesson(UserType userType,Lesson lesson);
+
     User update(User user,MultipartFile multipartFile) throws IOException;
 
     User register(User user, MultipartFile multipartFile) throws IOException;

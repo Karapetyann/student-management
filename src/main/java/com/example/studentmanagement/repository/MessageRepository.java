@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message,Integer> {
-    List<Message> findAllByFrom(User user);
+    List<Message> findAllByFrom_Id(int id);
 }

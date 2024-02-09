@@ -8,7 +8,7 @@
 
 <h1>My Messages</h1>
 
-<table border="1">
+<table style="border: 1px solid red" border="1">
     <thead>
     <tr>
         <th>id</th>
@@ -18,10 +18,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="messages == null" th:each="message : ${messages}">
+    <tr th:if="${messages != null}" th:each="message : ${messages}">
         <td th:text="${message.id}"></td>
         <td th:text="${message.message}"></td>
-        <td th:text="${message.from}"></td>
+        <td th:text="${message.from.name}"></td>
         <td th:text="${message.dateTime}"></td>
     </tr>
     </tbody>

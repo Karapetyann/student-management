@@ -23,9 +23,4 @@ public class User {
     @ManyToOne()
     private Lesson lesson;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_message",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "message_id"))
-    private List<Message> messageList;
 }

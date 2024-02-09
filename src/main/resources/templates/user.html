@@ -7,7 +7,7 @@
 <body>
 <span th:if="msg != null" style="color: red" th:text="${msg}"></span>
 <th:block th:include="/fragment/headerFragment::userInfo"/>
-Users page | <a href="/user/add">Add User</a> | <a href="/message/list">My Messages</a>
+Users page | <a href="/user/add">Add User</a> | <a href="/message/list">Messages</a>
 <table border="1">
     <thead>
     <tr>
@@ -36,14 +36,18 @@ Users page | <a href="/user/add">Add User</a> | <a href="/message/list">My Messa
         <td th:text="${student.email}"></td>
         <td th:text="${student.lesson?.title}"></td>
         <td th:text="${student.userType}"></td>
-        <td><a th:href="@{'/message/send/' + ${student.getId()}}">Send A Message</a></td>
         <td>
-            <div th:if="${currentUser != null and currentUser.id == student.id}">
+            <div th:if="${currentUser.id != student.id}">
+                <a th:href="@{'/message/send/' + ${student.getId()}}">Send A Message</a>
+            </div>
+        </td>
+        <td>
+            <div th:if="${currentUser.id == student.id}">
                 <a th:href="@{'/user/update/' + ${student.getId()}}">Update</a>
             </div>
         </td>
         <td>
-            <div th:if="${currentUser != null and currentUser.id == student.id}">
+            <div th:if="${currentUser != null && currentUser.id == student.id}">
                 <a th:href="@{'/user/delete/' + ${student.getId()}}">Delete</a>
             </div>
         </td>

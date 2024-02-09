@@ -36,7 +36,7 @@ public class UserController {
             if (user.getUserType() == UserType.TEACHER) {
                 return "redirect:/lesson?msg=User Added";
             }
-            return "redirect:/user?msg=User Added";
+            return "redirect:/user/home?msg=User Added";
         } else {
             return "redirect:/user/register?msg=Email already in use";
         }
@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
        userService.deleteById(id);
-        return "redirect:/user/teacher";
+        return "redirect:/user/home";
     }
 
     @GetMapping("/user/update/{id}")
@@ -65,7 +65,7 @@ public class UserController {
     @PostMapping("/user/update")
     public String updateUser(@ModelAttribute User user, @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         userService.update(user,multipartFile);
-        return "user";
+        return "redirect:/user/home";
     }
 
     @GetMapping("/user/register")
@@ -102,7 +102,7 @@ public class UserController {
                 modelMap.addAttribute("teachers",teachers);
                 return "lesson";
             }else {
-                List<User> students = userService.findByUserType(UserType.STUDENT);
+                List<User> students = userService.findAllByUserTypeAndLesson(UserType.STUDENT,user.getLesson());
                 modelMap.addAttribute("students",students);
                 return "user";
             }
