@@ -6,6 +6,7 @@ import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.repository.UserRepository;
 import com.example.studentmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Value("${picture.upload.directory}")
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
                 user.setPicName(picName);
             }
             userRepository.save(user);
+            log.info("A user with this email {} registered",user.getEmail());
             return Optional.of(user);
         }
         return byEmail;

@@ -6,6 +6,7 @@ import com.example.studentmanagement.repository.MessageRepository;
 import com.example.studentmanagement.service.MessageService;
 import com.example.studentmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MessageServiceImpl implements MessageService{
     private final UserService userService;
     private final MessageRepository messageRepository;
@@ -28,6 +30,7 @@ public class MessageServiceImpl implements MessageService{
         if (toUser != null) {
             Date date = new Date();
             Message newMessage = new Message(0, message, fromUser, toUser, date);
+            log.info("Message sent to{} to user {}",newMessage.getFrom(),newMessage.getTo());
             return messageRepository.save(newMessage);
         }
        return null;
@@ -35,6 +38,12 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public List<Message> myMessages(int id) {
+
+
+
+
+
+
         return messageRepository.findAllByFrom_Id(id);
     }
 }
