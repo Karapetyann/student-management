@@ -6,6 +6,7 @@ import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.security.SpringUser;
 import com.example.studentmanagement.service.LessonService;
 import com.example.studentmanagement.service.UserService;
+import com.example.studentmanagement.service.impl.SendMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

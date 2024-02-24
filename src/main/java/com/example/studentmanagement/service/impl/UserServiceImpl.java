@@ -22,7 +22,9 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Value("${picture.upload.directory}")
+    private final SendMailService sendMailService;
+
+    @Value("${student-management.picture.upload.directory}")
     private String uploadDirectory;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -37,6 +39,12 @@ public class UserServiceImpl implements UserService {
                 File file = new File(uploadDirectory, picName);
                 multipartFile.transferTo(file);
                 user.setPicName(picName);
+                if (file.exists()){
+                    boolean delete = file.delete();
+                    if (delete){
+                        log.info("file delete true");
+                    }
+                }
             }
             userRepository.save(user);
             log.info("A user with this email {} registered",user.getEmail());
@@ -101,7 +109,10 @@ public class UserServiceImpl implements UserService {
                 multipartFile.transferTo(file);
                 user.setPicName(picName);
             }
-            return userRepository.save(user);
+        User user1 = userRepository.save(user);
+            sendMailService.send(user.getEmail(),"Welcome",
+                    String.format("Welcome %s , You hav successfully registered to our website!!!",user.getName()));
+            return user1;
     }
 
     @Override
